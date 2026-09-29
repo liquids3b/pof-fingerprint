@@ -1,0 +1,39 @@
+[Unit]
+Description=pof-fingerprint - passive TCP/IP OS fingerprinting API
+Documentation=file:/opt/pof-fingerprint/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pof
+Group=pof
+WorkingDirectory=/opt/pof-fingerprint
+ExecStart=/opt/pof-fingerprint/run.sh
+Restart=always
+RestartSec=2
+TimeoutStopSec=10
+
+# Захват SYN требует CAP_NET_RAW, но root сервису не нужен: ядро отдаёт
+# AF_PACKET сокет и с этой capability.
+AmbientCapabilities=CAP_NET_RAW CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_RAW CAP_NET_BIND_SERVICE
+# Порт 8351 выше 1024, поэтому CAP_NET_BIND_SERVICE нужен только если
+# вы поменяете порт на привилегированный.
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/pof-fingerprint/log
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_PACKET AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

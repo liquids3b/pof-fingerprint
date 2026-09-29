@@ -1,0 +1,16 @@
+{
+  "api_host": "0.0.0.0",
+  "api_port": 8351,
+  "api_key": "",
+  "interface": "",
+  "max_ips": 50000,
+  "per_ip": 3,
+  "expire_seconds": 0,
+  "bpf": true,
+  "ignore_local_ips": true,
+  "ignore_private_ips": false,
+  "database": "database/mydb.pof.json",
+  "log_dir": "log",
+  "verbose": false,
+  "quiet": false
+}
